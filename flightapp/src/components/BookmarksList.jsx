@@ -5,7 +5,6 @@ export default function BookmarksList({ items = [], onRemove }) {
 
   return (
     <div style={{ marginTop: 16 }}>
-      <h3>Bookmarked Flights</h3>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
