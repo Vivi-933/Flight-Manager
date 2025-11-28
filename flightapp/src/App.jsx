@@ -19,7 +19,7 @@ import OnSuccessfulPayment from './pages/Payment/OnSuccessfulPayment'
 import OnFailedPayment from './pages/Payment/OnFailedPayment'
 
 // for testing
-import PaypalPaymentTest from './pages/PaypalPaymentTest'
+import PaypalPayment from './pages/PaypalPayment'
 
 
 
@@ -41,7 +41,7 @@ function App() {
           <Route path="/about" element={<About />} />
 
           {/* Payments */}
-          <Route path="/PaypalPaymentTest" element={<PaypalPaymentTest />} />
+          <Route path="/PaypalPayment" element={<PaypalPayment />} />
           <Route path="/OnSuccessfulPayment" element={<OnSuccessfulPayment />} />
           <Route path="/OnFailedPayment" element={<OnFailedPayment />} />
 

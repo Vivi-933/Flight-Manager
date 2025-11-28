@@ -32,9 +32,9 @@ export default function Navbar() {
           Chat
         </NavLink>
         {/* for testing: */}
-        <NavLink to="/PaypalPaymentTest" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+        {/* <NavLink to="/PaypalPaymentTest" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
           PaypalPaymentTest
-        </NavLink>
+        </NavLink> */}
       </div>
 
       <div className="nav-right">

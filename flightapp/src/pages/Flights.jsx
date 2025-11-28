@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { getToken, flightOffer } from '../API_calls.mjs'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from "react-router-dom"
 
 function offerId(offer) {
   if (!offer) return null
@@ -14,7 +15,9 @@ function offerId(offer) {
 
 export default function Flights() {
   const auth = useAuth()
+  const navigate = useNavigate()
   const { bookmarks = [], addBookmark, removeBookmark } = auth || {}
+  const { bookings = [], removeBooking } = auth || {}
   const [origin, setOrigin] = useState('JFK')
   const [destination, setDestination] = useState('LAX')
   const [date, setDate] = useState('2025-12-01')
@@ -80,6 +83,23 @@ export default function Flights() {
     }
   }
 
+    function isBooked(o) {
+      const id = o._bookingId || offerId(o)
+    return bookings.some((b) => (b._bookingId || b.id || offerId(b)) === id)
+  }
+
+  async function toggleBooking(o) {
+    const id = o._bookingId || offerId(o)
+    if (isBooked(o)) {
+      await removeBooking({ ...o, _bookingId: id })
+    } else {
+      // navigate to payment
+      navigate("/PaypalPayment", {
+      state: { booking: { ...o, _bookingId: id }}
+    })
+    }
+  }
+
   
 
   return (
@@ -118,6 +138,7 @@ export default function Flights() {
                 <th>Arrival</th>
                 <th>Carrier</th>
                 <th>Bookmark</th>
+                <th>Book Flight</th>
               </tr>
             </thead>
             <tbody>
@@ -143,6 +164,11 @@ export default function Flights() {
                     <td>
                       <button onClick={() => toggleBookmark(offer)}>
                         {isBookmarked(offer) ? 'Bookmarked' : 'Bookmark'}
+                      </button>
+                    </td>
+                    <td>
+                      <button onClick={() => toggleBooking(offer)}>
+                        {isBooked(offer) ? 'Cancel' : 'Buy'}
                       </button>
                     </td>
                   </tr>

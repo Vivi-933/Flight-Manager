@@ -11,7 +11,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "ws": "^8.13.0",
     "@paypal/react-paypal-js": "^8.9.2",
     "amadeus": "^11.0.0",
     "firebase": "^12.4.0",
@@ -20,7 +19,8 @@
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.4",
     "router": "^2.2.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

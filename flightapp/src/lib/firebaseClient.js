@@ -107,3 +107,33 @@ export async function removeBookmarkForUser(uid, id) {
   const ref = doc(db, 'users', uid, 'bookmarks', id)
   await deleteDoc(ref)
 }
+
+// Firestore flight helpers (per-user under `users/{uid}/bookings/{id}`)
+export async function saveBookingForUser(uid, id, bookmark) {
+  if (!uid) throw new Error('uid required')
+  const { db } = await initFirebase()
+  if (!db) throw new Error('Firestore not available')
+  const { doc, setDoc, serverTimestamp } = await import('firebase/firestore')
+  const ref = doc(db, 'users', uid, 'bookings', id)
+  await setDoc(ref, { ...bookmark, updatedAt: serverTimestamp() })
+}
+
+export async function getBookingsForUser(uid) {
+  if (!uid) return []
+  const { db } = await initFirebase()
+  if (!db) return []
+  const { collection, getDocs } = await import('firebase/firestore')
+  const col = collection(db, 'users', uid, 'bookings')
+  const snap = await getDocs(col)
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+}
+
+export async function removeBookingForUser(uid, id) {
+  if (!uid) throw new Error('uid required')
+  const { db } = await initFirebase()
+  if (!db) throw new Error('Firestore not available')
+  const { doc, deleteDoc } = await import('firebase/firestore')
+  const ref = doc(db, 'users', uid, 'bookings', id)
+  await deleteDoc(ref)
+}
+
