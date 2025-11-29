@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext'
 
 export default function Profile() {
   const auth = useAuth()
-  const { user, bookmarks = [], bookings = [], removeBookmark, removeBooking } = auth || {}
+  const { user, bookmarks = [], removeBookmark } = auth || {}
 
   // segregate bookmarks into flights and hotels
   const flightBookmarks = (bookmarks || []).filter((b) => {
@@ -13,12 +13,6 @@ export default function Profile() {
     return !!(b && (b.itineraries || b.pricing || b.price || b.type !== 'hotel')) && !(b.type === 'hotel')
   })
   const hotels = (bookmarks || []).filter((b) => b && (b.type === 'hotel' || b.hotel || b.hotelDetails))
-
-  // segregate bookings into flights and hotels
-  const flightBookings = (bookings || []).filter((b) => {
-  // flights usually have 'itineraries' or pricing fields
-  return !!(b && (b.itineraries || b.pricing || b.price || b.type !== 'hotel')) && !(b.type === 'hotel')
-  })
 
 
   return (
@@ -34,13 +28,6 @@ export default function Profile() {
 
       <section>
         <h3>Flights</h3>
-
-        <h3>Booked Flights</h3>
-        {flightBookings && flightBookings.length > 0 ? (
-          <BookmarksList items={flightBookings} onRemove={removeBooking} />
-        ) : (
-          <div style={{ color: '#666' }}>No booked flights.</div>
-        )}
 
         <h3>Bookmarked Flights</h3>
         {flightBookmarks && flightBookmarks.length > 0 ? (
