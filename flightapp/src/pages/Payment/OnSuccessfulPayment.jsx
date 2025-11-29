@@ -25,11 +25,22 @@ export default function OnSuccessfulPayment() {
     )
   }
 
+  let price
+  let bookingId
+  if (booking.type == "hotel") {
+    price = booking.offer.price.total
+    bookingId = booking.id
+  } else {
+    price = booking.price.total
+    bookingId = booking._bookingId
+  }
+
+  console.log(booking)
   return (
     <div>
       <h2>Booking Successful</h2>
-      <p>Booking id: {booking._bookingId}</p>
-      <p>Price: {booking.price.total}</p>
+      <p>Booking id: {bookingId}</p>
+      <p>Price: {price}</p>
     </div>
   )
 }

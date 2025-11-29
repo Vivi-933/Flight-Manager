@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import { hotelsSearch } from '../API_calls.mjs'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from "react-router-dom"
 
 export default function Hotels() {
   const [location, setLocation] = useState('')
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
+
+  const navigate = useNavigate()
   
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [results, setResults] = useState(null)
 
-  const { addBookmark, removeBookmark, bookmarks, user } = useAuth()
+  const { addBookmark, removeBookmark, bookmarks, user, bookings, removeBooking } = useAuth()
 
   async function handleSearch(e) {
     e && e.preventDefault()
@@ -71,6 +74,32 @@ export default function Hotels() {
   }
 
 
+  function isBooked(hotel, offer) {
+      const id = getBookmarkId(hotel, offer)
+    return (bookings || []).some((b) => (b._bookingId || b.id || btoa(JSON.stringify(b)).slice(0, 12)) === id)
+  }
+
+  async function toggleBooking(hotel, offer) {
+    const id = getBookmarkId(hotel, offer)
+    const bk = {
+      type: 'hotel',
+      id,
+      title: hotel.name || hotel.address || 'Hotel',
+      hotel: hotel,
+      offer: offer,
+      _createdAt: new Date().toISOString(),
+    }
+    if (isBooked(hotel, offer)) {
+      await removeBooking(bk)
+    } else {
+      // navigate to payment
+      navigate("/PaypalPayment", {
+      state: { booking: bk}
+    })
+    }
+  }
+
+
   const list = (results && results.data) || []
 
   return (
@@ -115,6 +144,12 @@ export default function Hotels() {
                           </button>
                         )}
                       </div>
+
+                      <td>
+                      <button onClick={() => toggleBooking(hotel, firstOffer)}>
+                        {isBooked(hotel, firstOffer) ? 'Cancel' : 'Buy'}
+                      </button>
+                    </td>
                     </div>
                   </div>
                 </div>

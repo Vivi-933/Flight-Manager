@@ -12,7 +12,7 @@ export default function Bookings() {
   // flights usually have 'itineraries' or pricing fields
   return !!(b && (b.itineraries || b.pricing || b.price || b.type !== 'hotel')) && !(b.type === 'hotel')
   })
-
+  const hotels = (bookings || []).filter((b) => b && (b.type === 'hotel' || b.hotel || b.hotelDetails))
 
   return (
     <div>
@@ -38,6 +38,13 @@ export default function Bookings() {
 
       <section style={{ marginTop: 16 }}>
         <h3>Hotels</h3>
+
+        <h3>Booked Hotels</h3>
+        {hotels && hotels.length > 0 ? (
+          <HotelBookmarksList items={hotels} onRemove={removeBooking} />
+        ) : (
+          <div style={{ color: '#666' }}>No saved hotels.</div>
+        )}
 
       </section>
     </div>

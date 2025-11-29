@@ -5,7 +5,6 @@ export default function HotelBookmarksList({ items = [], onRemove }) {
 
   return (
     <div style={{ marginTop: 16 }}>
-      <h3>Bookmarked Hotels</h3>
       <div>
         {items.map((b, idx) => {
           const id = b._bookmarkId || b.id || `hb-${idx}`

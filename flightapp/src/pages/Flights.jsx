@@ -83,7 +83,7 @@ export default function Flights() {
     }
   }
 
-    function isBooked(o) {
+  function isBooked(o) {
       const id = o._bookingId || offerId(o)
     return bookings.some((b) => (b._bookingId || b.id || offerId(b)) === id)
   }

@@ -39,6 +39,8 @@ export default function Profile() {
 
       <section style={{ marginTop: 16 }}>
         <h3>Hotels</h3>
+
+        <h3>Bookmarked Hotels</h3>
         {hotels && hotels.length > 0 ? (
           <HotelBookmarksList items={hotels} onRemove={removeBookmark} />
         ) : (

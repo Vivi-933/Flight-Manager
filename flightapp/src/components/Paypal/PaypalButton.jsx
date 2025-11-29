@@ -6,7 +6,13 @@ const paypalclientid = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 
 const PayPalButton = ({ booking }) => {
   const navigate = useNavigate();
-  const price = booking.price.total
+  let price
+
+  if (booking.type == "hotel") {
+    price = booking.offer.price.total
+  } else {
+    price = booking.price.total
+  }
 
   return (
     <PayPalScriptProvider
